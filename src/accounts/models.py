@@ -55,7 +55,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
-    username = models.CharField(verbose_name='username', max_length=50, unique=True)
+    user_name = models.CharField(verbose_name='username', max_length=50, unique=True)
 
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=True)
@@ -65,14 +65,12 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    def get_email(self):
+
+    def __str__(self):
         return self.email
     
     def get_username(self):
-        return self.username
-    
-    def __str__(self):
-        return self.email
+        return super().get_username()
     
     def has_perm(self, perm, obj=None):
         return True
