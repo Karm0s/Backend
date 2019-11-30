@@ -1,17 +1,11 @@
-from django.contrib.auth import get_user_model
-
 import graphene
 from graphene_django import DjangoObjectType
 
-class UserType(DjangoObjectType):
-    class Meta:
-        model = get_user_model()
+from api.schema import Query as APIQuery
+from accounts.schema import Query as AccountsQuery
 
-class Query(graphene.ObjectType):
-    users = graphene.List(UserType)
-
-    def resolve_users(self, info, **kwargs):
-        return get_user_model().objects.all()
+class Query(AccountsQuery, APIQuery, graphene.ObjectType):
+    pass
 
 
 schema = graphene.Schema(query=Query)
